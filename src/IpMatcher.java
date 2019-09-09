@@ -62,7 +62,7 @@ public class IpMatcher{
      */
     public void processString(String input) {
         Matcher ip = Pattern.compile("\\d+[.]\\d+[.]\\d+[.]\\d+").matcher(input);
-        Matcher user = Pattern.compile("\\buser \\b[a-zA-Z0-9]+").matcher(input);
+        Matcher user = Pattern.compile("\\buser \\b[a-zA-Z0-9_-]+[$]?").matcher(input); //matching loosest linux user name constraints I found, and then loosening them a bit more
         while (ip.find()) {
             String group = ip.group();
             if (ipMap.containsKey(group)) {
