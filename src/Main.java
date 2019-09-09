@@ -12,6 +12,15 @@ import java.util.Scanner;
  */
 public class Main {
 
+	/**
+	 * Feeds the given file into an IpMatcher and outputs the relevant information about the given file
+	 * based on the print flag
+	 * args[0] should be the full path to the file to be processed
+	 * args[1] == 1 will output all the ips and the number of times each occurred along with the default output
+	 * args[1] == 2 will output all the usernames and the number of times each occurred along with the default output
+	 * args[1] != 1 && args[1] != 2 will output the default output
+	 * @param args args[0] should be the full path to the file to process, args[1] should be the print flag (0, 1, or 2)
+	 */
 	public static void main(String[] args) {
 		long lines = 0;
 		IpMatcher im = new IpMatcher();
