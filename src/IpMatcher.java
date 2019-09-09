@@ -1,3 +1,11 @@
+/**
+ * Reads the given file and searches for usernames and ip addresses
+ * @author Joshua Coffey
+ * @version 1.0
+ * Programming Project One
+ * CS322 - Compiler Construction
+ * Spring 2019
+ */
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,37 +17,14 @@ import java.util.HashMap;
 
 public class IpMatcher{
 
-    private String fileName;
-    private String fileText;
     private HashMap<String, Integer> ipMap;
     private HashMap<String, Integer> unameMap;
-    private long lines;
 
-    //constructor
-    public IpMatcher(String filePath) {
-        fileName = filePath;
-        fileText = readFile();
+
+    public IpMatcher() {
         ipMap = new HashMap<>();
         unameMap = new HashMap<>();
-        populateIps();
-        populateUnames();
     }// end constructor
-
-    private String readFile() {
-        String result = "";
-        try {
-            result = new Scanner(new File(fileName)).useDelimiter("\\Z").next();
-            lines = Files.lines(Paths.get(fileName)).count();
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
-    public String getFileText() {
-        return fileText;
-    }
 
     public HashMap<String, Integer> getIpMap() {
         return ipMap;
@@ -49,26 +34,27 @@ public class IpMatcher{
         return unameMap;
     }
 
-    public long getLines() {
-        return lines;
+    public int getIpMapSize() {
+        return ipMap.size();
     }
 
-    public void populateIps() {
-        Matcher m = Pattern.compile("\\d+[.]\\d+[.]\\d+[.]\\d+").matcher(getFileText());
-        while (m.find()) {
-            String group = m.group();
+    public int getUnameMapSize() {
+        return unameMap.size();
+    }
+
+    public void processString(String input) {
+        Matcher ip = Pattern.compile("\\d+[.]\\d+[.]\\d+[.]\\d+").matcher(input);
+        Matcher user = Pattern.compile("\\buser \\b[a-zA-Z0-9]+").matcher(input);
+        while (ip.find()) {
+            String group = ip.group();
             if (ipMap.containsKey(group)) {
                 ipMap.put(group, ipMap.get(group)+1);
             } else {
                 ipMap.put(group, 1);
             }
         }
-    }
-
-    public void populateUnames() {
-        Matcher m = Pattern.compile("\\buser \\b[a-zA-Z0-9]+").matcher(getFileText());
-        while (m.find()) {
-            String group = m.group();
+        while (user.find()) {
+            String group = user.group();
             group = group.substring(5);
             if (unameMap.containsKey(group)) {
                 unameMap.put(group, unameMap.get(group)+1);
@@ -78,4 +64,4 @@ public class IpMatcher{
         }
     }
 	
-}//end IpMatcher.java
+}//end IpMatcher
