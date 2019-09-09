@@ -1,35 +1,81 @@
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.HashMap;
 
 public class IpMatcher{
 
-    //Default constructor
-    public IpMatcher() {
+    private String fileName;
+    private String fileText;
+    private HashMap<String, Integer> ipMap;
+    private HashMap<String, Integer> unameMap;
+    private long lines;
 
-    }// end default constructor
+    //constructor
+    public IpMatcher(String filePath) {
+        fileName = filePath;
+        fileText = readFile();
+        ipMap = new HashMap<>();
+        unameMap = new HashMap<>();
+        populateIps();
+        populateUnames();
+    }// end constructor
 
-    public String readFile() {
+    private String readFile() {
         String result = "";
-        //BufferedReader reader;
-        URL url = IpMatcher.class.getResource("auth.log");
         try {
-            /*reader = new BufferedReader(new FileReader(url.toString().substring(5)));
-            String line = reader.readLine();
-            while (line != null) {
-                result += line + "\n";
-                line = reader.readLine();
-            }
-            reader.close();*/
-            result = new Scanner(new File(url.toString().substring(5))).useDelimiter("\\Z").next();
+            result = new Scanner(new File(fileName)).useDelimiter("\\Z").next();
+            lines = Files.lines(Paths.get(fileName)).count();
         } catch(IOException e){
             e.printStackTrace();
         }
 
         return result;
     }
+
+    public String getFileText() {
+        return fileText;
+    }
+
+    public HashMap<String, Integer> getIpMap() {
+        return ipMap;
+    }
+
+    public HashMap<String, Integer> getUnameMap() {
+        return unameMap;
+    }
+
+    public long getLines() {
+        return lines;
+    }
+
+    public void populateIps() {
+        Matcher m = Pattern.compile("\\d+[.]\\d+[.]\\d+[.]\\d+").matcher(getFileText());
+        while (m.find()) {
+            String group = m.group();
+            if (ipMap.containsKey(group)) {
+                ipMap.put(group, ipMap.get(group)+1);
+            } else {
+                ipMap.put(group, 1);
+            }
+        }
+    }
+
+    public void populateUnames() {
+        Matcher m = Pattern.compile("\\buser \\b[a-zA-Z0-9]+").matcher(getFileText());
+        while (m.find()) {
+            String group = m.group();
+            group = group.substring(5);
+            if (unameMap.containsKey(group)) {
+                unameMap.put(group, unameMap.get(group)+1);
+            } else {
+                unameMap.put(group, 1);
+            }
+        }
+    }
 	
-}//ent IpMatcher.java
+}//end IpMatcher.java

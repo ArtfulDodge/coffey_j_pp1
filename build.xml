@@ -1,0 +1,30 @@
+<?xml version = "1.0"?>
+<project name= "coffey_j_pp1" default="usage" basedir=".">
+
+    <target name="usage">
+        <echo>usage: displays this message</echo>
+        <echo>build: builds the project and places the classes in out/production/coffey_j_pp1</echo>
+        <echo>clear: deletes the compiled class files</echo>
+        <echo>run:   runs the program with the default params</echo>
+    </target>
+
+    <target name="build">
+        <echo>Compiling the .java source files...</echo>
+        <javac includeantruntime="false" srcdir="./src" destdir="./out/production/coffey_j_pp1" />
+    </target>
+
+    <target name="run">
+        <echo>Generating the .java files...</echo>
+        <java classname="Main" classpath="out/production/coffey_j_pp1">
+            <arg value="./src/auth.log"/>
+            <arg value="0"/>
+        </java>
+    </target>
+
+    <target name="clear">
+        <echo>Deleting .class files...</echo>
+        <delete>
+            <fileset dir="out/production/coffey_j_pp1" includes="**/*.class"/>
+        </delete>
+    </target>
+</project>
