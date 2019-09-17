@@ -4,27 +4,27 @@
     <target name="usage">
         <echo>usage: displays this message</echo>
         <echo>build: builds the project and places the classes in out/production/coffey_j_pp1</echo>
-        <echo>clear: deletes the compiled class files</echo>
+        <echo>clean: deletes the compiled class files</echo>
         <echo>run:   runs the program with the default params</echo>
     </target>
 
     <target name="build">
         <echo>Compiling the .java source files...</echo>
-        <javac includeantruntime="false" srcdir="./src" destdir="./out/production/coffey_j_pp1" />
+        <javac includeantruntime="false" srcdir="." destdir="." />
     </target>
 
     <target name="run">
         <echo>Generating the .java files...</echo>
-        <java classname="Main" classpath="out/production/coffey_j_pp1">
-            <arg value="./src/auth.log"/>
+        <java classname="Main" classpath=".">
+            <arg value="./auth.log"/>
             <arg value="0"/>
         </java>
     </target>
 
-    <target name="clear">
+    <target name="clean">
         <echo>Deleting .class files...</echo>
         <delete>
-            <fileset dir="out/production/coffey_j_pp1" includes="**/*.class"/>
+            <fileset dir="." includes="**/*.class"/>
         </delete>
     </target>
 </project>

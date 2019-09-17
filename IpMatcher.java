@@ -3,7 +3,7 @@ import java.util.regex.Pattern;
 import java.util.HashMap;
 
 /**
- * Processes the inpormation passed to it by Main, storing the Ips and the Usernames and how
+ * Processes the information passed to it by Main, storing the Ips and the Usernames and how
  * frequently each unique one appears in hashmaps.
  * @author Joshua Coffey
  * @version 1.0
